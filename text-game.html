@@ -29,7 +29,7 @@
 
     <div class="output-block" id="originalText">Original Text:</div>
     <div class="output-block" id="reversedText">Reversed Text:</div>
-    <div class="output-block" id="invertedText">Inverted Text:</div>
+    <div class="output-block" id="invertedText">Inverted Text (from Block 2):</div>
 
     <script>
         function processInput() {
@@ -38,13 +38,8 @@
             // Reverse the text
             const reversedInput = userInput.split('').reverse().join('');
 
-            // Invert the text
-            const invertedInput = invertText(userInput);
-
-            // Debugging logs
-            console.log("User Input:", userInput);
-            console.log("Reversed Input:", reversedInput);
-            console.log("Inverted Input:", invertedInput);
+            // Apply character substitutions to the reversed text
+            const invertedInput = invertText(reversedInput);
 
             // Update the output blocks
             document.getElementById('originalText').innerText = userInput;
