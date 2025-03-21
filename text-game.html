@@ -13,24 +13,32 @@
             padding: 10px;
             margin-top: 10px;
         }
-        .output-block {
+        .output-section {
             margin-top: 20px;
-            padding: 10px;
-            border: none;
-            background-color: #f9f9f9;
-            white-space: pre-line; /* Preserves line breaks for blank lines */
+        }
+        .output-section p {
+            margin: 10px 0;
+        }
+        .divider {
+            margin: 10px 0;
+            border-top: 1px solid #ccc;
         }
     </style>
 </head>
 <body>
-    <h1>Text Manipulation</h1>
+    <h1>Cipher Game: Reverse and Invert Input</h1>
     <input type="text" id="userInput" placeholder="Enter a string">
     <button onclick="processInput()">Process</button>
 
-    <div class="output-block" id="originalText"></div>
-    <div class="output-block" id="reversedText"></div>
-    <div class="output-block" id="invertedText"></div>
-    <div class="output-block" id="wordTransformation"></div>
+    <div class="output-section">
+        <p id="originalText"></p>
+        <div class="divider"></div>
+        <p id="reversedText"></p>
+        <div class="divider"></div>
+        <p id="invertedText"></p>
+        <div class="divider"></div>
+        <p id="wordTransformation"></p>
+    </div>
 
     <script>
         // Add "Enter" key functionality
@@ -39,7 +47,7 @@
                 processInput(); // Call the function when Enter is pressed
             }
         });
-        
+
         function processInput() {
             const userInput = document.getElementById('userInput').value;
 
@@ -54,9 +62,9 @@
 
             // Update the output blocks
             document.getElementById('originalText').innerText = userInput;
-            document.getElementById('reversedText').innerText = reversedInput + '\n';
-            document.getElementById('invertedText').innerText = invertedInput + '\n';
-            document.getElementById('wordTransformation').innerText = `Mids: ${transformedWords}\n`;
+            document.getElementById('reversedText').innerText = reversedInput;
+            document.getElementById('invertedText').innerText = invertedInput;
+            document.getElementById('wordTransformation').innerText = transformedWords;
         }
 
         function invertText(input) {
