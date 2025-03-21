@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cipher Game: Reverse and Invert Input</title>
+    <title>Text Manipulation</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -19,10 +19,6 @@
         .output-section p {
             margin: 10px 0;
         }
-        .divider {
-            margin: 10px 0;
-            border-top: 1px solid #ccc;
-        }
     </style>
 </head>
 <body>
@@ -30,15 +26,7 @@
     <input type="text" id="userInput" placeholder="Enter a string">
     <button onclick="processInput()">Process</button>
 
-    <div class="output-section">
-        <p id="originalText"></p>
-        <div class="divider"></div>
-        <p id="reversedText"></p>
-        <div class="divider"></div>
-        <p id="invertedText"></p>
-        <div class="divider"></div>
-        <p id="wordTransformation"></p>
-    </div>
+    <div class="output-section" id="output"></div>
 
     <script>
         // Add "Enter" key functionality
@@ -60,11 +48,13 @@
             // Transform words based on their length
             const transformedWords = transformWords(userInput);
 
-            // Update the output blocks
-            document.getElementById('originalText').innerText = userInput;
-            document.getElementById('reversedText').innerText = reversedInput;
-            document.getElementById('invertedText').innerText = invertedInput;
-            document.getElementById('wordTransformation').innerText = transformedWords;
+            // Update the output section
+            const outputSection = document.getElementById('output');
+            outputSection.innerHTML = ''; // Clear previous output
+            outputSection.append(createParagraph(userInput));
+            outputSection.append(createParagraph(reversedInput));
+            outputSection.append(createParagraph(invertedInput));
+            outputSection.append(createParagraph(transformedWords));
         }
 
         function invertText(input) {
@@ -111,6 +101,12 @@
 
             // Join the transformed words back into a string
             return transformed.join(' ');
+        }
+
+        function createParagraph(text) {
+            const p = document.createElement('p');
+            p.innerText = text;
+            return p;
         }
     </script>
 </body>
