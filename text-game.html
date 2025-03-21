@@ -42,9 +42,9 @@
             const invertedInput = invertText(reversedInput);
 
             // Update the output blocks
-            document.getElementById('originalText').innerText = userInput;
-            document.getElementById('reversedText').innerText = reversedInput;
-            document.getElementById('invertedText').innerText = invertedInput;
+            document.getElementById('originalText').innerText = `Original Text: ${userInput}`;
+            document.getElementById('reversedText').innerText = `Reversed Text: ${reversedInput}`;
+            document.getElementById('invertedText').innerText = `Inverted Text: ${invertedInput}`;
         }
 
         function invertText(input) {
@@ -53,19 +53,19 @@
                 '0': '0', '1': '⇂', '2': 'ᘔ', '3': 'Ɛ', '4': 'ㄣ', '5': 'ϛ', '6': '9', '7': 'ㄥ', '8': '8', '9': '6',
 
                 // Lowercase Letters
-                'a': 'e', 'b': 'q', 'c': 'ɔ', 'd': 'p', 'e': 'a', 'f': 'ɟ', 'g': 'b', 'h': 'ɥ', 'i': '!', 'j': 'ſ', 'k': 'ʞ', 'l': 'l', 'm': 'w', 'n': 'u', 'o': 'o', 'p': 'd', 'q': 'b', 'r': 'ɹ', 's': 's', 't': '+', 'u': 'n', 'v': 'ʌ', 'w': 'm', 'x': 'x', 'y': 'ʎ', 'z': 'z',
+                'a': 'ɐ', 'b': 'q', 'c': 'ɔ', 'd': 'p', 'e': 'ǝ', 'f': 'ɟ', 'g': 'ƃ', 'h': 'ɥ', 'i': 'ᴉ', 'j': 'ɾ', 'k': 'ʞ', 'l': 'l', 'm': 'ɯ', 'n': 'u', 'o': 'o', 'p': 'd', 'q': 'b', 'r': 'ɹ', 's': 's', 't': 'ʇ', 'u': 'n', 'v': 'ʌ', 'w': 'ʍ', 'x': 'x', 'y': 'ʎ', 'z': 'z',
 
                 // Uppercase Letters
-                'A': '∀', 'B': 'q', 'C': 'Ɔ', 'D': 'P', 'E': 'Ǝ', 'F': 'Ⅎ', 'G': '⅁', 'H': 'H', 'I': 'I', 'J': 'ſ', 'K': 'ʞ', 'L': '⅂', 'M': 'W', 'N': 'N', 'O': 'O', 'P': 'Ԁ', 'Q': 'Ό', 'R': 'ꓤ', 'S': 'S', 'T': '⊥', 'U': '∩', 'V': 'Λ', 'W': 'M', 'X': 'X', 'Y': '⅄', 'Z': 'Z',
+                'A': '∀', 'B': 'ᗺ', 'C': 'Ɔ', 'D': 'ᗡ', 'E': 'Ǝ', 'F': 'Ⅎ', 'G': '⅁', 'H': 'H', 'I': 'I', 'J': 'ſ', 'K': 'ʞ', 'L': '⅂', 'M': 'W', 'N': 'N', 'O': 'O', 'P': 'Ԁ', 'Q': 'Ό', 'R': 'ꓤ', 'S': 'S', 'T': '⊥', 'U': '∩', 'V': 'Λ', 'W': 'M', 'X': 'X', 'Y': '⅄', 'Z': 'Z',
 
                 // Special Characters
-                ',': "'", "'": ',', '"': '„', '!': 'i', '(': ')', ')': '(', '[': ']', ']': '[', '{': '}', '}': '{', '&': '⅋'
+                ',': "'", "'": ',', '"': '„', '!': '¡', '?': '¿', '(': ')', ')': '(', '[': ']', ']': '[', '{': '}', '}': '{', '&': '⅋', '.': '˙'
             };
 
             let invertedText = '';
             for (let i = 0; i < input.length; i++) {
                 const char = input[i];
-                invertedText += substitutionMap[char] || char;
+                invertedText += substitutionMap[char] || char; // Use substitution map or leave the character as is
             }
             return invertedText;
         }
