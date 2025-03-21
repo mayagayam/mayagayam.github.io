@@ -41,6 +41,11 @@
             // Invert the text
             const invertedInput = invertText(userInput);
 
+            // Debugging logs
+            console.log("User Input:", userInput);
+            console.log("Reversed Input:", reversedInput);
+            console.log("Inverted Input:", invertedInput);
+
             // Update the output blocks
             document.getElementById('originalText').innerText = userInput;
             document.getElementById('reversedText').innerText = reversedInput;
