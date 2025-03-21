@@ -27,9 +27,10 @@
     <input type="text" id="userInput" placeholder="Enter a string">
     <button onclick="processInput()">Process</button>
 
-    <div class="output-block" id="originalText">Original Text:</div>
-    <div class="output-block" id="reversedText">Reversed Text:</div>
-    <div class="output-block" id="invertedText">Inverted Text (from Block 2):</div>
+    <div class="output-block" id="originalText"></div>
+    <div class="output-block" id="reversedText"></div>
+    <div class="output-block" id="invertedText"></div>
+    <div class="output-block" id="wordTransformation"></div>
 
     <script>
         function processInput() {
@@ -41,10 +42,14 @@
             // Apply character substitutions to the reversed text
             const invertedInput = invertText(reversedInput);
 
+            // Transform words based on their length
+            const transformedWords = transformWords(userInput);
+
             // Update the output blocks
-            document.getElementById('originalText').innerText = `Original Text: ${userInput}`;
-            document.getElementById('reversedText').innerText = `Reversed Text: ${reversedInput}`;
-            document.getElementById('invertedText').innerText = `Inverted Text: ${invertedInput}`;
+            document.getElementById('originalText').innerText = userInput;
+            document.getElementById('reversedText').innerText = reversedInput;
+            document.getElementById('invertedText').innerText = invertedInput;
+            document.getElementById('wordTransformation').innerText = `Mids: ${transformedWords}`;
         }
 
         function invertText(input) {
@@ -68,6 +73,29 @@
                 invertedText += substitutionMap[char] || char; // Use substitution map or leave the character as is
             }
             return invertedText;
+        }
+
+        function transformWords(input) {
+            // Split the input into words
+            const words = input.split(/\s+/);
+
+            // Transform each word based on its length
+            const transformed = words.map(word => {
+                // Remove punctuation at the start and end of the word
+                const strippedWord = word.replace(/^[^\w]+|[^\w]+$/g, '');
+
+                if (strippedWord.length <= 2) {
+                    return word; // Keep as is
+                } else if (strippedWord.length >= 3 && strippedWord.length <= 5) {
+                    return word.slice(1, -1); // Remove first and last character
+                } else if (strippedWord.length >= 6) {
+                    return word.slice(2, -2); // Remove first two and last two characters
+                }
+                return word; // Default case (shouldn't happen)
+            });
+
+            // Join the transformed words back into a string
+            return transformed.join(' ');
         }
     </script>
 </body>
