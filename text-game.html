@@ -15,9 +15,7 @@
         }
         .output-section {
             margin-top: 20px;
-        }
-        .output-section p {
-            margin: 10px 0;
+            white-space: pre-wrap; /* Ensure text wraps in <pre> */
         }
     </style>
 </head>
@@ -51,10 +49,10 @@
             // Update the output section
             const outputSection = document.getElementById('output');
             outputSection.innerHTML = ''; // Clear previous output
-            outputSection.append(createParagraph(userInput));
-            outputSection.append(createParagraph(reversedInput));
-            outputSection.append(createParagraph(invertedInput));
-            outputSection.append(createParagraph(transformedWords));
+            outputSection.append(createPre(userInput));
+            outputSection.append(createPre(reversedInput));
+            outputSection.append(createPre(invertedInput));
+            outputSection.append(createPre(transformedWords));
         }
 
         function invertText(input) {
@@ -103,11 +101,12 @@
             return transformed.join(' ');
         }
 
-        function createParagraph(text) {
-            const p = document.createElement('p');
-            p.innerText = text;
-            return p;
+        function createPre(text) {
+            const pre = document.createElement('pre');
+            pre.innerText = text;
+            return pre;
         }
     </script>
 </body>
 </html>
+
