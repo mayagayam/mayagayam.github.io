@@ -16,9 +16,9 @@
         .output-block {
             margin-top: 20px;
             padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            border: none;
             background-color: #f9f9f9;
+            white-space: pre-line; /* Preserves line breaks for blank lines */
         }
     </style>
 </head>
@@ -47,9 +47,9 @@
 
             // Update the output blocks
             document.getElementById('originalText').innerText = userInput;
-            document.getElementById('reversedText').innerText = reversedInput;
-            document.getElementById('invertedText').innerText = invertedInput;
-            document.getElementById('wordTransformation').innerText = `Mids: ${transformedWords}`;
+            document.getElementById('reversedText').innerText = reversedInput + '\n';
+            document.getElementById('invertedText').innerText = invertedInput + '\n';
+            document.getElementById('wordTransformation').innerText = `Mids: ${transformedWords}\n`;
         }
 
         function invertText(input) {
