@@ -33,6 +33,13 @@
     <div class="output-block" id="wordTransformation"></div>
 
     <script>
+        // Add "Enter" key functionality
+        document.getElementById('userInput').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                processInput(); // Call the function when Enter is pressed
+            }
+        });
+        
         function processInput() {
             const userInput = document.getElementById('userInput').value;
 
