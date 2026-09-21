@@ -161,19 +161,24 @@
 
         // [find, replacement] pairs, applied in order to the whole text. Add new rules to this list.
         const substitutions = [
-            ['year', 'year/**year**/~~hear/ear~~'],
-            ['today', 'today/**today**/==to==__day__'],
+            ['year', '**year**/~~hear/ear~~'],
+            ['today', '**today**/==to==__day__'],
             ['there are', 'there are/==~~here~~==/~~hear ear~~/~~rear~~)'],
             ['ancient', '==~~<<ancient~~==/__==ancient==__'],
-            ['thousand', 'thousand/house and/==~~do use and~~==/==~~<<k-thousand~~=='],
+            ['thousand', '==~~<<k-thousand~~==/house and/do-us-use-and'],
             ['single', '~~sing~~le/__==sin==__gle/__single__'],
+            ['forward', '==for==~~ward-word~~/==~~forward>>~~=='],
             ['red', '__red__'],
             ['r ed', '__r ed__'],
             ['day', '__day__'],
+            ['north', '__north__'],
+            ['up', '__up__'],
+            ['rise', '__rise__'],
             ['spec', '__spec__'],
             ['one', '__one__'],
             ['sin', '__==sin==__'],
             ['s in', '__==s in==__'],
+            ['science', '__==science==__'],
             ['ex', '__==ex==__'],
             ['que', '__==que==__'],
             ['more', '==more=='],  
@@ -186,6 +191,7 @@
             ['scribe', '~~scribe~~'],
             ['ear', '~~ear~~'],
             ['ring', '~~ring~~'],
+            ['south', '~~south~~'],
             ['all', '~~all~~'],
             ['link', '**link**'],
             ['name', '**name**'],
@@ -193,6 +199,7 @@
             ['but', '<<but>>/~~butt~~'],            
             ['end', '==~~end>>~~=='],
             ['ass', '==~~ass>>~~=='],
+            ['west', '==~~<<west~~=='],
             ['back', '==~~<<back~~==']
         ];
 
