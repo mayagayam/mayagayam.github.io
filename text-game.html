@@ -155,14 +155,22 @@
             }
         });
 
-        // Each rule takes the whole text and returns the new text; add new rules to this list.
-        const substitutionRules = [
-            // "end" -> "==~~end>>~~==". A single pass that leaves an existing marker alone, so output is never rescanned or double-wrapped.
-            text => text.replace(/==~~end>>~~==|end/g, match => match === '==~~end>>~~==' ? match : '==~~end>>~~=='),
+        // [find, replacement] pairs, applied in order to the whole text. Add new rules to this list.
+        const substitutions = [
+            ['end', '==~~end>>~~=='],
+            ['and', '==and=='],
         ];
 
+        function escapeRegExp(text) {
+            return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        }
+
+        // One pass per rule; an existing replacement is matched first and left alone, so repeat pastes never nest.
         function applySubstitutions(text) {
-            return substitutionRules.reduce((current, rule) => rule(current), text);
+            return substitutions.reduce((current, [find, replacement]) => {
+                const pattern = new RegExp(escapeRegExp(replacement) + '|' + escapeRegExp(find), 'g');
+                return current.replace(pattern, match => match === replacement ? match : replacement);
+            }, text);
         }
 
         function processSubstitutions() {
