@@ -161,34 +161,54 @@
 
         // [find, replacement] pairs, applied in order to the whole text. Add new rules to this list.
         const substitutions = [
-            ['end', '==~~end>>~~=='],
-            ['and', '==and=='],
-            ['red', '__red__'],
-            ['r ed', '__r ed__'],
-            ['to', '==to=='],
-            ['scribe', '~~scribe~~'],
-            ['but', '<<but>>'],
-            ['sin', '__sin__'],
-            ['s in', '__s in__'],
-            ['link', '**link**'],
-            ['for', '==for=='],
-            ['ex', '__==ex==__'],
-            ['just', '__==just==__'],
-            ['one', '__one__'],
+            ['year', 'year/**year**/~~hear/ear~~'],
+            ['today', 'today/**today**/==to==__day__'],
             ['there are', 'there are/==~~here~~==/~~hear ear~~/~~rear~~)'],
             ['ancient', '==~~<<ancient~~==/__==ancient==__'],
+            ['thousand', 'thousand/house and/==~~do use and~~==/==~~<<k-thousand~~=='],
+            ['single', '~~sing~~le/__==sin==__gle/__single__'],
+            ['red', '__red__'],
+            ['r ed', '__r ed__'],
+            ['day', '__day__'],
+            ['spec', '__spec__'],
+            ['one', '__one__'],
+            ['sin', '__==sin==__'],
+            ['s in', '__==s in==__'],
+            ['ex', '__==ex==__'],
+            ['que', '__==que==__'],
+            ['more', '==more=='],  
+            ['some', '==some=='],
+            ['cum', '==cum=='],           
+            ['and', '==and=='],
+            ['for', '==for=='],
+            ['just', '==~~<<just>>~~==/==just=='],
+            ['to', '==to=='],
+            ['scribe', '~~scribe~~'],
+            ['ear', '~~ear~~'],
+            ['ring', '~~ring~~'],
+            ['all', '~~all~~'],
+            ['link', '**link**'],
+            ['name', '**name**'],
+            ['time', '**time**/__==times==__'],
+            ['but', '<<but>>/~~butt~~'],            
+            ['end', '==~~end>>~~=='],
+            ['ass', '==~~ass>>~~==']
         ];
 
-        function escapeRegExp(text) {
-            return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        }
-
-        // One pass per rule; an existing replacement is matched first and left alone, so repeat pastes never nest.
+        // Each replacement is swapped for one placeholder character while the rules run, so no later rule can match inside an earlier replacement. Replacements already in the pasted text are hidden first, so repeat pastes never nest.
         function applySubstitutions(text) {
-            return substitutions.reduce((current, [find, replacement]) => {
-                const pattern = new RegExp(escapeRegExp(replacement) + '|' + escapeRegExp(find), 'g');
-                return current.replace(pattern, match => match === replacement ? match : replacement);
-            }, text);
+            const tokens = new Map();
+            const tokenFor = replacement => {
+                if (!tokens.has(replacement)) tokens.set(replacement, String.fromCharCode(0xE000 + tokens.size));
+                return tokens.get(replacement);
+            };
+            let result = text;
+            substitutions.map(([, replacement]) => replacement)
+                .sort((a, b) => b.length - a.length)
+                .forEach(replacement => { result = result.split(replacement).join(tokenFor(replacement)); });
+            substitutions.forEach(([find, replacement]) => { result = result.split(find).join(tokenFor(replacement)); });
+            const restore = new Map([...tokens].map(([replacement, token]) => [token, replacement]));
+            return result.replace(/[-]/g, char => restore.get(char) || char);
         }
 
         function processSubstitutions() {
