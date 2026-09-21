@@ -42,7 +42,8 @@
     <hr style="margin-top: 30px;">
 
     <h1>Substitutions</h1>
-    <input type="text" id="subInput" placeholder="Enter a string">
+    <textarea id="subInput" rows="8" style="width: 100%; box-sizing: border-box; padding: 10px; margin-top: 10px;" placeholder="Paste text here (Ctrl/Cmd+Enter to process)"></textarea>
+    <br>
     <button onclick="processSubstitutions()">Process</button>
 
     <div class="output-section" id="subOutput"></div>
@@ -147,18 +148,26 @@
             });
         }
 
-        // Substitutions section (placeholder)
+        // Substitutions section: plain Enter adds a newline, Ctrl/Cmd+Enter processes
         document.getElementById('subInput').addEventListener('keydown', function(event) {
-            if (event.key === 'Enter') {
+            if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
                 processSubstitutions();
             }
         });
 
+        // Each rule takes the whole text and returns the new text; add new rules to this list.
+        const substitutionRules = [
+            // "end" -> "==~~end>>~~==". A single pass that leaves an existing marker alone, so output is never rescanned or double-wrapped.
+            text => text.replace(/==~~end>>~~==|end/g, match => match === '==~~end>>~~==' ? match : '==~~end>>~~=='),
+        ];
+
+        function applySubstitutions(text) {
+            return substitutionRules.reduce((current, rule) => rule(current), text);
+        }
+
         function processSubstitutions() {
             const subInput = document.getElementById('subInput').value;
-
-            // TODO: substitution logic goes here. For now the input is echoed unchanged.
-            const subResult = subInput;
+            const subResult = applySubstitutions(subInput);
 
             const subOutput = document.getElementById('subOutput');
             subOutput.innerHTML = '';
