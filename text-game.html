@@ -17,6 +17,10 @@
             margin-top: 20px;
             white-space: pre-wrap; /* Ensure text wraps in <pre> */
         }
+        .output-section pre {
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
         .copy-button {
             margin-top: 10px;
             padding: 10px;
@@ -159,6 +163,15 @@
         const substitutions = [
             ['end', '==~~end>>~~=='],
             ['and', '==and=='],
+            ['red', '__red__'],
+            ['r ed', '__r ed__'],
+            ['to', '==to=='],
+            ['scribe', '~~scribe~~'],
+            ['but', '<<but>>'],
+            ['sin', '__sin__'],
+            ['s in', '__s in__'],
+            ['link', '**link**'],
+            ['ancient', '==~~<<ancient~~==/__==ancient==__'],
         ];
 
         function escapeRegExp(text) {
