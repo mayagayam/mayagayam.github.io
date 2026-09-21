@@ -39,6 +39,15 @@
     <div class="output-section" id="output"></div>
     <button class="copy-button" onclick="copyToClipboard()">Copy to Clipboard</button>
 
+    <hr style="margin-top: 30px;">
+
+    <h1>Substitutions</h1>
+    <input type="text" id="subInput" placeholder="Enter a string">
+    <button onclick="processSubstitutions()">Process</button>
+
+    <div class="output-section" id="subOutput"></div>
+    <button class="copy-button" onclick="copySubstitutions()">Copy to Clipboard</button>
+
     <script>
         // Add "Enter" key functionality
         document.getElementById('userInput').addEventListener('keydown', function(event) {
@@ -130,6 +139,38 @@
                 .join('\n'); // Combine all <pre> blocks into one string with newlines
 
             // Copy to clipboard
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                alert('Copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                alert('Failed to copy to clipboard.');
+            });
+        }
+
+        // Substitutions section (placeholder)
+        document.getElementById('subInput').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                processSubstitutions();
+            }
+        });
+
+        function processSubstitutions() {
+            const subInput = document.getElementById('subInput').value;
+
+            // TODO: substitution logic goes here. For now the input is echoed unchanged.
+            const subResult = subInput;
+
+            const subOutput = document.getElementById('subOutput');
+            subOutput.innerHTML = '';
+            subOutput.append(createPre(subResult));
+        }
+
+        function copySubstitutions() {
+            const subOutput = document.getElementById('subOutput');
+            const textToCopy = Array.from(subOutput.querySelectorAll('pre'))
+                .map(pre => pre.innerText)
+                .join('\n');
+
             navigator.clipboard.writeText(textToCopy).then(() => {
                 alert('Copied to clipboard!');
             }).catch(err => {
