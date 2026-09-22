@@ -193,9 +193,11 @@
             ['spec', '__spec__'],
             ['one', '__one__'],
             ['like', '__like 👍__'],
+            ['Phoenician', '__Phoenician__'],
             ['symbol', '__==symbol==__/simple'],
             ['simple', 'simple/__==symbol==__'],
             ['key', '__==key==__'],
+            ['he k', '__==he k-key==__'],
             ['eek', '__==eek-key==__'],
             ['sin', '__==sin==__'],
             ['s in', '__==s in==__'],
@@ -256,7 +258,10 @@
             substitutions.map(([, replacement]) => replacement)
                 .sort((a, b) => b.length - a.length)
                 .forEach(replacement => { result = result.split(replacement).join(tokenFor(replacement)); });
-            substitutions.forEach(([find, replacement]) => { result = result.split(find).join(tokenFor(replacement)); });
+            substitutions.forEach(([find, replacement]) => {
+                const token = tokenFor(replacement);
+                result = result.replace(new RegExp(find.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'), () => token);
+            });
             const restore = new Map([...tokens].map(([replacement, token]) => [token, replacement]));
             return result.replace(/[-]/g, char => restore.get(char) || char);
         }
