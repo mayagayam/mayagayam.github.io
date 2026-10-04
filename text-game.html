@@ -419,8 +419,8 @@
 
             const combinedOutput = document.getElementById('combinedOutput');
             combinedOutput.innerHTML = '';
-            topLines.forEach(line => combinedOutput.append(createPre(line)));
             combinedOutput.append(createPre("Subs: " + subResult));
+            topLines.forEach(line => combinedOutput.append(createPre(line)));
         }
 
         function copyCombined() {
