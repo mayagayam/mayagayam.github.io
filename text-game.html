@@ -59,6 +59,16 @@
     <div class="output-section" id="subOutput"></div>
     <button class="copy-button" onclick="copySubstitutions()">Copy to Clipboard</button>
 
+    <hr style="margin-top: 30px;">
+
+    <h1>Combined</h1>
+    <textarea id="combinedInput" rows="8" style="width: 100%; box-sizing: border-box; padding: 10px; margin-top: 10px;" placeholder="Paste text here (Ctrl/Cmd+Enter to process)"></textarea>
+    <br>
+    <button onclick="processCombined()">Process</button>
+
+    <div class="output-section" id="combinedOutput"></div>
+    <button class="copy-button" onclick="copyCombined()">Copy to Clipboard</button>
+
     <script>
         // Add "Enter" key functionality
         document.getElementById('userInput').addEventListener('keydown', function(event) {
@@ -67,9 +77,8 @@
             }
         });
 
-        function processInput() {
-            const userInput = document.getElementById('userInput').value;
-
+        // The section-1 pipeline, with no DOM access, so any other section can reuse it as-is.
+        function computeTopOutputs(userInput) {
             // Reverse the text
             const reversedInput = userInput.split('').reverse().join('');
 
@@ -79,15 +88,16 @@
             // Transform words based on their length
             const transformedWords = transformWords(userInput);
 
+            return [userInput, reversedInput, invertedInput, "Mids: " + transformedWords];
+        }
+
+        function processInput() {
+            const userInput = document.getElementById('userInput').value;
+
             // Update the output section
             const outputSection = document.getElementById('output');
             outputSection.innerHTML = ''; // Clear previous output
-            outputSection.append(createPre(userInput));
-            outputSection.append(createPre(reversedInput));
-            outputSection.append(createPre(invertedInput));
-
-            // Add "Mids: " before the fourth output
-            outputSection.append(createPre("Mids: " + transformedWords));
+            computeTopOutputs(userInput).forEach(line => outputSection.append(createPre(line)));
         }
 
         function invertText(input) {
@@ -274,6 +284,11 @@
             ['ex', '__==ex==__'],
             ['que', '__==que==__'],
             ['middle', '__==middle==__'],
+            ['medium', '__==medium==__'],
+            ['mean', '__==mean==__'],
+            ['center', '__==center==__'],
+            ['average', '__==average==__'],
+            ['mid', '__==mid==__'],
             ['more', '==more=='],  
             ['with', '==with=='], 
             ['aim', '==aim=='],
@@ -370,6 +385,41 @@
         function copySubstitutions() {
             const subOutput = document.getElementById('subOutput');
             const textToCopy = Array.from(subOutput.querySelectorAll('pre'))
+                .map(pre => pre.innerText)
+                .join('\n');
+
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                alert('Copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                alert('Failed to copy to clipboard.');
+            });
+        }
+
+        // Combined section: plain Enter adds a newline, Ctrl/Cmd+Enter processes
+        document.getElementById('combinedInput').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
+                processCombined();
+            }
+        });
+
+        function processCombined() {
+            const combinedInputVal = document.getElementById('combinedInput').value;
+
+            // Calls the same section-1 and section-2 pipelines directly, so a change to
+            // either one shows up here automatically with no extra edit.
+            const topLines = computeTopOutputs(combinedInputVal);
+            const subResult = applySubstitutions(combinedInputVal);
+
+            const combinedOutput = document.getElementById('combinedOutput');
+            combinedOutput.innerHTML = '';
+            topLines.forEach(line => combinedOutput.append(createPre(line)));
+            combinedOutput.append(createPre("Subs: " + subResult));
+        }
+
+        function copyCombined() {
+            const combinedOutput = document.getElementById('combinedOutput');
+            const textToCopy = Array.from(combinedOutput.querySelectorAll('pre'))
                 .map(pre => pre.innerText)
                 .join('\n');
 
